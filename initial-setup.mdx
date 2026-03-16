@@ -1,0 +1,113 @@
+---
+title: "Initial setup"
+description: "Get your Fedora installation ready for general use."
+---
+
+After installing Fedora, follow these steps to update your system, add essential repositories, and configure a few optional quality-of-life improvements. Read each section fully before running any commands.
+
+<Steps>
+  <Step title="(Optional) Optimize DNF configuration">
+    You can improve download speeds and reduce confirmation prompts by editing your DNF configuration file.
+
+    Open `/etc/dnf/dnf.conf` in a text editor and make it look like this:
+
+    ```ini
+    [main]
+    max_parallel_downloads=10
+    defaultyes=True
+    ```
+
+    <Tip>
+      `max_parallel_downloads=10` allows up to 10 simultaneous downloads. `defaultyes=True` automatically selects **Yes** when you press Enter on a confirmation prompt.
+    </Tip>
+  </Step>
+
+  <Step title="Update your system">
+    <Warning>
+      Update your system before installing any packages. This ensures stability and that you receive the latest version of all installed software.
+    </Warning>
+
+    ```bash
+    sudo dnf update
+    ```
+
+    Reboot after the update completes if a new kernel was installed.
+  </Step>
+
+  <Step title="Install the RPM Fusion repositories">
+    RPM Fusion provides access to proprietary software and free software not included in Fedora's main repositories — including Nvidia drivers, Steam, Discord, and multimedia codecs.
+
+    ```bash
+    sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+    ```
+
+    <Note>
+      Two separate repositories are added: `rpmfusion-free` for free software and `rpmfusion-nonfree` for proprietary software. Both are required for full hardware and codec support.
+    </Note>
+  </Step>
+
+  <Step title="Install hardware drivers and codecs">
+    With RPM Fusion enabled, you can now install GPU drivers and multimedia codecs. See the related guides below for step-by-step instructions.
+
+    If you have an Nvidia GPU, follow the Nvidia drivers guide. All users should follow the multimedia codecs guide to enable video and audio playback.
+  </Step>
+
+  <Step title="(Optional) Replace Fedora Flatpak with Flathub">
+    Fedora ships with its own Flatpak repository, which has a smaller selection than Flathub and can occasionally have package-specific issues. It is commonly recommended to replace it with the official Flathub repository.
+
+    <Warning>
+      Fedora does not install any Flatpaks by default. If you have installed Flatpaks, reinstall them from Flathub before deleting the Fedora remote. Run `flatpak list` to check what you have installed.
+    </Warning>
+
+    Add the Flathub remote:
+
+    ```bash
+    sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    ```
+
+    Enable the remote and remove the filter:
+
+    ```bash
+    flatpak remote-modify --no-filter --enable flathub
+    ```
+
+    Remove the Fedora remote:
+
+    ```bash
+    flatpak remote-delete fedora
+    ```
+  </Step>
+
+  <Step title="(Optional) Fix occasional slow boot">
+    The `NetworkManager-wait-online.service` service delays boot until a network connection is established. It is known to occasionally hang and significantly slow startup.
+
+    <Warning>
+      Only disable this service if you do not have any services that require an active network connection at startup. Out of the box, Fedora has no such services.
+    </Warning>
+
+    ```bash
+    sudo systemctl disable NetworkManager-wait-online.service
+    ```
+  </Step>
+
+  <Step title="Reboot">
+    Reboot your system after completing the initial setup. Your system will then be ready to use.
+  </Step>
+</Steps>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Nvidia drivers" icon="microchip" href="/hardware/nvidia-drivers">
+    Install the correct Nvidia GPU drivers for your hardware.
+  </Card>
+  <Card title="Multimedia codecs" icon="film" href="/hardware/codecs">
+    Enable video and audio codec support for media playback.
+  </Card>
+  <Card title="Firefox hardware acceleration" icon="bolt" href="/hardware/firefox-hw-accel">
+    Configure Firefox to use GPU hardware acceleration.
+  </Card>
+  <Card title="Virtual machines" icon="server" href="/virtualization/virtual-machines">
+    Set up and run virtual machines on Fedora.
+  </Card>
+</CardGroup>

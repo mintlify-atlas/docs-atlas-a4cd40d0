@@ -1,0 +1,69 @@
+---
+title: "Multimedia codecs"
+description: "Install multimedia codecs and enable hardware-accelerated video playback on Fedora."
+---
+
+<Note>
+  RPM Fusion repositories must be installed before proceeding. If you haven't set them up yet, see the [initial setup](/initial-setup) guide first.
+</Note>
+
+## Universal codecs
+
+Install these codecs regardless of your GPU.
+
+<Steps>
+  <Step title="Swap ffmpeg-free for ffmpeg">
+    Replace the default `ffmpeg-free` package with the full `ffmpeg` build for better compatibility:
+
+    ```bash
+    sudo dnf swap ffmpeg-free ffmpeg --allowerasing
+    ```
+  </Step>
+  <Step title="Install additional multimedia codecs">
+    Install other proprietary and restricted codecs required by many multimedia applications:
+
+    ```bash
+    sudo dnf update @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
+    ```
+  </Step>
+</Steps>
+
+## Hardware-accelerated codecs
+
+Install the codec packages that match your GPU.
+
+<Tabs>
+  <Tab title="AMD">
+    These commands swap the open-source mesa VA-API drivers with the freeworld variants for better compatibility:
+
+    ```bash
+    sudo dnf swap mesa-va-drivers.i686 mesa-va-drivers-freeworld.i686
+    ```
+
+    ```bash
+    sudo dnf swap mesa-va-drivers mesa-va-drivers-freeworld
+    ```
+  </Tab>
+  <Tab title="Nvidia">
+    Install extra codecs for Nvidia GPUs. This also installs the VA-API compatibility driver for hardware video decoding:
+
+    ```bash
+    sudo dnf install libva-nvidia-driver.{i686,x86_64} libva-utils vdpauinfo nvidia-query-resource-opengl nvidia-texture-tools freeglut-devel libX11-devel libXi-devel libXmu-devel make mesa-libGLU-devel freeimage-devel glfw
+    ```
+  </Tab>
+  <Tab title="Intel">
+    Choose the command that matches your processor generation:
+
+    **Skylake and newer, or Intel Arc GPUs**
+
+    ```bash
+    sudo dnf install libva-intel-driver
+    ```
+
+    **Before Skylake**
+
+    ```bash
+    sudo dnf install intel-media-driver
+    ```
+  </Tab>
+</Tabs>

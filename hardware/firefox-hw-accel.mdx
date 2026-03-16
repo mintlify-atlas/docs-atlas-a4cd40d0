@@ -1,0 +1,47 @@
+---
+title: "Firefox hardware acceleration"
+description: "Enable GPU-accelerated video decoding in Firefox on Nvidia GPUs."
+---
+
+This guide is based on information from the [nvidia-vaapi-driver](https://github.com/elFarto/nvidia-vaapi-driver) repository.
+
+<Note>
+  This guide covers Firefox only. Support for Chromium-based browsers may be added in the future.
+</Note>
+
+Before you begin, make sure you have installed:
+- [Nvidia GPU drivers](/hardware/nvidia-drivers)
+- [Multimedia codecs](/hardware/codecs)
+
+## Configure Firefox
+
+<Steps>
+  <Step title="Set about:config flags">
+    In Firefox, type `about:config` in the address bar and press Enter. Set each of the following values:
+
+    | Flag | Value | Status |
+    |------|-------|--------|
+    | `media.ffmpeg.vaapi.enabled` | `true` | Required |
+    | `media.hardware-video-decoding.force-enabled` | `true` | Required |
+    | `media.rdd-ffmpeg.enabled` | `true` | Required |
+    | `gfx.x11-egl.force-enabled` | `true` | Required |
+    | `media.av1.enabled` | `false` | Optional |
+
+    <Tip>
+      `media.av1.enabled` = `false` is only needed if your GPU does not support AV1 hardware decoding.
+    </Tip>
+  </Step>
+  <Step title="Set environment variables">
+    Firefox requires the following environment variables to be set:
+
+    ```bash
+    MOZ_DISABLE_RDD_SANDBOX=1 LIBVA_DRIVER_NAME=nvidia
+    ```
+
+    On Fedora KDE Plasma, you can set these without editing any files:
+
+    1. Right-click Firefox in the Application menu.
+    2. Click **Edit application**.
+    3. Add the variables above to the **Environment Variables** line.
+  </Step>
+</Steps>

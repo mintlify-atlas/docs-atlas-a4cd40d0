@@ -1,0 +1,90 @@
+---
+title: "Virtual machines"
+description: "Set up KVM and Virtual Machine Manager to run virtual machines on Fedora Linux."
+---
+
+Fedora supports hardware-accelerated virtualization through KVM (Kernel-based Virtual Machine). This guide walks you through installing the required packages, enabling the `libvirtd` service, and verifying that your system is ready to run virtual machines.
+
+## System requirements
+
+<Note>
+  Each virtual machine requires at least **600 MB of disk space** and **256 MB of RAM**. Plan your available resources accordingly before creating VMs.
+</Note>
+
+Most modern CPUs include hardware virtualization support (Intel VT-x or AMD-V). You may need to enable this feature in your BIOS — check your manufacturer's documentation for details.
+
+To check whether your CPU supports hardware virtualization, run:
+
+```bash
+grep -E '^flags.*(vmx|svm)' /proc/cpuinfo
+```
+
+<Warning>
+  If this command returns no output, your CPU does not support hardware virtualization. You can still run virtual machines using software virtualization, but performance will be significantly slower.
+</Warning>
+
+## Installation
+
+<Steps>
+  <Step title="Install virtualization packages">
+    Install the full virtualization package group, including optional components:
+
+    ```bash
+    sudo dnf group install --with-optional virtualization
+    ```
+
+    This installs KVM, QEMU, `libvirt`, and the Virtual Machine Manager GUI application.
+  </Step>
+
+  <Step title="Enable the libvirtd service">
+    Start the `libvirtd` service and configure it to launch automatically on boot:
+
+    ```bash
+    sudo systemctl enable --now libvirtd
+    ```
+  </Step>
+
+  <Step title="(Optional) Add your user to the libvirt group">
+    By default, Virtual Machine Manager will prompt for your root password each time it opens. To avoid this, add your user account to the `libvirt` group:
+
+    ```bash
+    sudo usermod -aG libvirt $USER
+    ```
+
+    <Tip>
+      You will need to log out and log back in for this group change to take effect.
+    </Tip>
+  </Step>
+
+  <Step title="Verify KVM modules are loaded">
+    Confirm that the KVM kernel modules loaded successfully:
+
+    ```bash
+    lsmod | grep kvm
+    ```
+
+    You should see output similar to the following:
+
+    ```
+    kvm_amd               114688  0
+    kvm                   831488  1 kvm_amd
+    ```
+
+    On Intel systems, `kvm_amd` will appear as `kvm_intel` instead.
+  </Step>
+</Steps>
+
+## Creating and managing virtual machines
+
+The recommended way to create and manage virtual machines is through **Virtual Machine Manager**, a graphical application installed as part of the steps above. It provides a straightforward interface for creating VMs, configuring hardware, and managing snapshots.
+
+If you prefer to work from the command line, refer to the [Fedora virtualization getting started guide](https://docs.fedoraproject.org/en-US/quick-docs/virtualization-getting-started/#_creating_virtual_machines/) for CLI-based VM creation and management using `virsh` and related tools.
+
+<CardGroup cols={2}>
+  <Card title="Initial setup" icon="computer" href="/initial-setup">
+    Configure your Fedora system after a fresh install.
+  </Card>
+  <Card title="Codecs" icon="film" href="/hardware/codecs">
+    Install multimedia codecs for audio and video playback.
+  </Card>
+</CardGroup>

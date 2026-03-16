@@ -1,0 +1,46 @@
+---
+title: "Welcome to Fedora Guide"
+description: "Guides and documentation to help new users set up and get the most out of Fedora Linux."
+---
+
+Fedora Linux is a cutting-edge, community-powered Linux distribution that ships with the latest open-source technologies. These guides are designed to help new users get their Fedora installation ready for everyday use, gaming, and development.
+
+Most of the information here is drawn from the official Fedora, RPM Fusion, and related documentation, with personal recommendations added as **Optional** sections.
+
+## Where to start
+
+<CardGroup cols={2}>
+  <Card title="Initial setup" icon="rocket" href="/initial-setup">
+    Get your system updated, add RPM Fusion repositories, install drivers, and configure key services.
+  </Card>
+  <Card title="Nvidia drivers" icon="microchip" href="/hardware/nvidia-drivers">
+    Install the correct Nvidia GPU drivers for modern and legacy cards.
+  </Card>
+  <Card title="Multimedia codecs" icon="film" href="/hardware/codecs">
+    Enable hardware-accelerated video playback and install proprietary codecs.
+  </Card>
+  <Card title="Virtual machines" icon="server" href="/virtualization/virtual-machines">
+    Set up KVM and Virtual Machine Manager to run VMs on your system.
+  </Card>
+</CardGroup>
+
+## What these guides cover
+
+<AccordionGroup>
+  <Accordion title="Initial system setup">
+    Configure DNF for faster downloads, update your system, install the RPM Fusion repositories, set up Flatpak with Flathub, and fix common issues like slow boot times.
+  </Accordion>
+  <Accordion title="GPU drivers and codecs">
+    Step-by-step instructions for installing Nvidia GPU drivers (both modern RTX/GTX and legacy 10xx-series cards). Includes multimedia codec installation for AMD, Nvidia, and Intel GPUs.
+  </Accordion>
+  <Accordion title="Firefox hardware acceleration">
+    Enable GPU-accelerated video decoding in Firefox on Nvidia hardware using the VA-API driver, with the correct `about:config` flags and environment variables.
+  </Accordion>
+  <Accordion title="Virtualization with KVM">
+    Install and configure KVM, QEMU, and Virtual Machine Manager to run Linux or Windows virtual machines on your Fedora system.
+  </Accordion>
+</AccordionGroup>
+
+<Note>
+  These guides are tailored for Fedora Workstation. Some steps may differ slightly on Fedora KDE Plasma or other spins, but the core package commands are the same.
+</Note>

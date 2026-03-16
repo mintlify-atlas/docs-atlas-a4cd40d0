@@ -1,0 +1,35 @@
+---
+title: "Nvidia GPU drivers"
+description: "Install Nvidia GPU drivers on Fedora Linux using RPM Fusion."
+---
+
+<Note>
+  RPM Fusion repositories must be installed before proceeding. If you haven't set them up yet, see the [initial setup](/initial-setup) guide first.
+</Note>
+
+## Install the drivers
+
+<Tabs>
+  <Tab title="Modern GPUs (16xx+)">
+    For Nvidia GPUs in the 16xx series or newer, run:
+
+    ```bash
+    sudo dnf install akmod-nvidia xorg-x11-drv-nvidia-cuda xorg-x11-drv-nvidia-cuda-libs
+    ```
+  </Tab>
+  <Tab title="Legacy GPUs (10xx and older)">
+    For Nvidia GPUs in the 10xx series or older, run:
+
+    ```bash
+    sudo dnf install xorg-x11-drv-nvidia-580xx akmod-nvidia-580xx xorg-x11-drv-nvidia-580xx-cuda
+    ```
+
+    <Note>
+      Legacy driver support starts in Fedora 44. It is not available in Fedora 43.
+    </Note>
+  </Tab>
+</Tabs>
+
+<Warning>
+  Wait at least 5 minutes after installing the drivers, and after every system update, before rebooting. The kernel module builds in the background — rebooting too early will result in a black screen.
+</Warning>
