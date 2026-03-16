@@ -1,0 +1,56 @@
+{
+  "projectType": "general",
+  "projectName": "Fedora Guide",
+  "projectDescription": "Guides and documentation to help new users set up and get the most out of Fedora Linux.",
+  "theme": "almond",
+  "primaryColor": "#0B57D0",
+  "lightColor": "#4A90D9",
+  "darkColor": "#0A3E8F",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "initial-setup"
+            ]
+          },
+          {
+            "group": "Hardware",
+            "pages": [
+              "hardware/nvidia-drivers",
+              "hardware/codecs",
+              "hardware/firefox-hw-accel"
+            ]
+          },
+          {
+            "group": "Virtualization",
+            "pages": [
+              "virtualization/virtual-machines"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Post-installation setup guide for Fedora Linux",
+    "Nvidia GPU driver installation (modern and legacy cards)",
+    "Multimedia codec installation for AMD, Nvidia, and Intel GPUs",
+    "Hardware-accelerated video decoding in Firefox on Nvidia",
+    "Virtual machine setup with KVM/libvirt and Virtual Machine Manager",
+    "RPM Fusion repository setup",
+    "Flatpak/Flathub configuration",
+    "DNF package manager optimization tips"
+  ],
+  "publicApiSurface": [
+    "Initial Setup guide",
+    "Nvidia Driver Installation guide",
+    "Multimedia Codecs guide",
+    "Firefox Hardware Acceleration guide",
+    "Virtual Machines guide"
+  ]
+}
